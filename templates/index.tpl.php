@@ -30,33 +30,34 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Drift status</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="mailto:support@bellcom.dk">Kontakt</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
     <div class="container container-main">
-      <img src="/assets/site/img/logo.png">
+      <img src="/assets/site/img/logo.png" alt="Bellcom">
+<p class="lead">Drift status oversigt</p>
+
 
 <h1>Nuværende fejl</h1>
 
 <?php
 if ($this->unresolved_issues) 
 {
-  while ($row = $this->unresolved_issues->fetch()) 
+  foreach ($this->unresolved_issues as $issue) 
   {
     ?>
     <div class="alert alert-danger">
-    <?php echo date( 'd-M-Y H:i', $row['date'] ); ?>
-    <h2><?php echo $row['title'];?></h2>
-    <?php echo $row['desc']; ?>
+    <?php echo date( 'd-M-Y H:i', $issue['date'] ); ?>
+    <h2><?php echo $issue['title'];?></h2>
+    <?php echo $issue['desc']; ?>
     </div> 
     <?php
   }
@@ -74,13 +75,13 @@ Ingen fejl pt
 <?php
 if ($this->resolved_issues) 
 {
-  while ($row = $this->resolved_issues->fetch()) 
+  foreach ($this->resolved_issues as $issue) 
   {
     ?>
     <div class="alert alert-success">
-    <?php echo date( 'd-M-Y H:i', $row['date'] ); ?>
-    <h2><?php echo $row['title'];?></h2>
-    <?php echo $row['desc']; ?>
+    <?php echo date( 'd-M-Y H:i', $issue['date'] ); ?>
+    <h2><?php echo $issue['title'];?></h2>
+    <?php echo $issue['desc']; ?>
     </div> 
     <?php
   }

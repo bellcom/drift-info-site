@@ -35,7 +35,7 @@ class Issues
 
     $resolved = $this->query($sql);
 
-    return $resolved;
+    return $resolved->fetchAll();
   }
 
   /**
@@ -57,7 +57,7 @@ class Issues
 
     $unresolved = $this->query( $sql );
 
-    return $unresolved;
+    return $unresolved->fetchAll();
   }
 
   /**
@@ -79,7 +79,7 @@ class Issues
    **/
   public function create( $fields )
   {
-    $fields['desc'] = '<p>'.$fields['desc'].'</p>';
+    $fields['desc'] = '<p>'. ( isset($fields['add-time']) ? date('H:i').' ' : '' ) .$fields['desc'].'</p>';
 
     $timestamp = time();
 
@@ -95,9 +95,11 @@ class Issues
    **/
   public function update( $id, $fields )
   {
+    $fields['desc'] = '<p>'. ( isset($fields['add-time']) ? date('H:i').' ' : '' ) .$fields['desc'].'</p>';
+
     if ( isset($fields['existing-desc']) )
     {
-      $fields['desc'] = $fields['desc'].'<p>'.$fields['existing-desc'].'</p>';
+      $fields['desc'] = $fields['desc'].$fields['existing-desc'];
     }
 
     $this->app->db->update('issues', array( 'resolved' => $fields['resolved'], 'desc' => $fields['desc']), array('id' => $id));

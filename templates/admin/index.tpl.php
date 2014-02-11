@@ -23,7 +23,7 @@
   <body>
     <div class="container">
 
-<h3>Ny</h3>
+<h3>Create new issue</h3>
 
 <form role="form" action="/admin/create" method="post">
   <div class="form-group">
@@ -34,22 +34,28 @@
     <label for="desc">Description</label>
     <input type="text" class="form-control" name="desc">
   </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" name="add-time" value="1"> <span class="glyphicon glyphicon-time"></span> Add current time before Description 
+    </label>
+  </div>
+
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
 
 <hr>
 
-<h3>Nuværende fejl</h3>
+<h3>Unresolved issues</h3>
 
 <?php
 if ($this->unresolved_issues) 
 {
-  while ($row = $this->unresolved_issues->fetch()) 
+  foreach ($this->unresolved_issues as $issue) 
   {
     ?>
 <div class="alert alert-danger">
-      <h4><?php echo $row['title']; ?></h4>
-<?php echo $row['desc']; ?>
+      <h4><?php echo $issue['title']; ?></h4>
+<?php echo $issue['desc']; ?>
 <form role="form" action="/admin/update" method="post">
   <div class="form-group">
     <label for="desc">Status update</label>
@@ -57,11 +63,16 @@ if ($this->unresolved_issues)
   </div>
   <div class="checkbox">
     <label>
-      <input type="checkbox" name="resolved" value="1"> Resolved 
+      <input type="checkbox" name="resolved" value="1"> <span class="glyphicon glyphicon-ok"></span> Mark as resolved 
     </label>
   </div>
-  <input type="hidden" name="issue-id" value="<?php echo $row['id']; ?>">
-  <input type="hidden" name="existing-desc" value="<?php echo $row['desc']; ?>">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" name="add-time" value="1"> <span class="glyphicon glyphicon-time"></span> Add current time before Description 
+    </label>
+  </div>
+  <input type="hidden" name="issue-id" value="<?php echo $issue['id']; ?>">
+  <input type="hidden" name="existing-desc" value="<?php echo $issue['desc']; ?>">
   <button type="submit" class="btn btn-default" name="update">Update</button>
   <button type="submit" class="btn btn-default" name="delete">Delete</button>
 </form>
@@ -73,25 +84,25 @@ if ($this->unresolved_issues)
 else
 {
 ?>
-Ingen fejl pt
+Currently no issues :)
 <?php
 }
 ?>
 
-<h3>Afsluttede fejl</h3>
+<h3>Resolved issues</h3>
 
 <?php
 if ($this->resolved_issues) 
 {
-  while ($row = $this->resolved_issues->fetch()) 
+  foreach ($this->resolved_issues as $issue) 
   {
     ?>
     <div class="alert alert-success">
-    <?php echo date( 'd-M-Y H:i', $row['date'] ); ?>
-    <h4><?php echo $row['title'];?></h4>
-    <?php echo $row['desc']; ?>
+    <?php echo date( 'd-M-Y H:i', $issue['date'] ); ?>
+    <h4><?php echo $issue['title'];?></h4>
+    <?php echo $issue['desc']; ?>
     <form role="form" action="/admin/update" method="post">
-      <input type="hidden" name="issue-id" value="<?php echo $row['id']; ?>">
+      <input type="hidden" name="issue-id" value="<?php echo $issue['id']; ?>">
       <button type="submit" class="btn btn-default" name="delete">Delete</button>
     </form>
     </div> 
