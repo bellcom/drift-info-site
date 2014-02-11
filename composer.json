@@ -1,0 +1,10 @@
+{
+  "require": { 
+    "klein/klein": "dev-master",
+    "doctrine/dbal": "2.5.*@dev",
+    "respect/validation": "dev-master"
+  },
+  "autoload": {
+    "psr-4": { "": "src/" }
+  }
+}
